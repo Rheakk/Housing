@@ -18,11 +18,7 @@ HOUSING_CSV = "%s.csv" % HOUSING_FILE_NAME
 
 HOUSING_URL = "%s/%s/%s" % (DOWNLOAD_ROOT, HOUSING_PATH, HOUSING_TGZ)
 
-dataEnv = os.environ["DATA_DIR"]
-if not dataEnv:
-    logging.error ("Make sure to set env DATA_DIR")
-    exit(1)
-OUT_DIR = dataEnv
+OUT_DIR = os.environ.get ("DATA_DIR", "")
 #else:
 #    OUT_DIR = 'C:\Users\Soo\Documents\Krsp\Housing\datasets\housing'
 
