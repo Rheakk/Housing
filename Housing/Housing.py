@@ -8,6 +8,8 @@ import logging
 import tarfile
 from six.moves import urllib
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
 DOWNLOAD_ROOT = "https://github.com/ageron/handson-ml/raw/master"
 HOUSING_PATH = "datasets/housing"
@@ -46,16 +48,24 @@ def load_housing_data (housing_file=HOUSING_CSV, in_dir=OUT_DIR):
     logging.info ("loading in pandas - %s", csv_path)
     return pd.read_csv (csv_path)
     
-if __name__ == "__main__":
+logging.getLogger().setLevel (logging.DEBUG)
+#fetch_housing_data ()
+housing = load_housing_data ()
+print housing.head ()
+housing.info ()
+print housing["ocean_proximity"].value_counts()
+print housing.describe()
+#housing.hist (bins=50, figsize=(20,15))
+#plt.show()
 
-    logging.getLogger().setLevel (logging.DEBUG)
-    #fetch_housing_data ()
-    housing = load_housing_data ()
-    print housing.head ()
-    housing.info ()
-    print housing["ocean_proximity"].value_counts()
-    print housing.describe()
+def split_train_test (data, test_ratio):
+    shuffled_indices = np.random.permutation (len(data))
+    test_set_size = int (len(data) * test_ratio)
+    test_indices = shuffled_indices [:test_set_size]
+    train_indices = shuffled_indices [test_set_size:]
+    return data.iloc [train_indices], data.iloc [test_indices]
 
-    import matplotlib.pyplot as plt
-    housing.hist (bins=50, figsize=(20,15))
-    plt.show()
+train_set, test_set = split_train_test (housing, 0.2)
+print (len (train_set), "train + ", len(test_set), "test")
+
+    
