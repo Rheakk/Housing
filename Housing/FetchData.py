@@ -18,7 +18,13 @@ HOUSING_CSV = "%s.csv" % HOUSING_FILE_NAME
 
 HOUSING_URL = "%s/%s/%s" % (DOWNLOAD_ROOT, HOUSING_PATH, HOUSING_TGZ)
 
-OUT_DIR = "C:\Users\Soo\Documents\Krsp\Housing\datasets\housing"
+dataEnv = os.environ["DATA_DIR"]
+if not dataEnv:
+    logging.error ("Make sure to set env DATA_DIR")
+    exit(1)
+OUT_DIR = dataEnv
+#else:
+#    OUT_DIR = 'C:\Users\Soo\Documents\Krsp\Housing\datasets\housing'
 
 def fetch_housing_data (housing_file=HOUSING_TGZ, housing_url=HOUSING_URL, out_dir=OUT_DIR):
     if not os.path.isdir (out_dir):
@@ -49,12 +55,12 @@ def load_housing_data (housing_file=HOUSING_CSV, in_dir=OUT_DIR):
 if __name__ == "__main__":
 
     logging.getLogger().setLevel (logging.DEBUG)
-    #fetch_housing_data ()
+    fetch_housing_data ()
     housing = load_housing_data ()
-    print housing.head ()
+    print (housing.head ())
     housing.info ()
-    print housing["ocean_proximity"].value_counts()
-    print housing.describe()
+    print (housing["ocean_proximity"].value_counts())
+    print (housing.describe())
 
     import matplotlib.pyplot as plt
     housing.hist (bins=50, figsize=(20,15))
