@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn import linear_model, neighbors
-#from scipy import cluster
 import logging
 
 oecd = pd.read_csv ("C:\Users\Soo\Downloads\BLI_04092017201038720.csv", thousands=",")
